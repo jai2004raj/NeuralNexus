@@ -37,7 +37,7 @@ import {
   BENGALURU_DEFAULT_TRAFFIC_CORRIDORS,
 } from './TrafficLayers';
 import { slicePolylineAtProgress } from '../../utils/geoUtils';
-import { Layers, Satellite, Map as MapIcon, Moon, Activity } from 'lucide-react';
+import { Satellite, Map as MapIcon, Moon } from 'lucide-react';
 
 export interface MapViewProps {
   worldState: WorldState;
@@ -81,8 +81,6 @@ export const MapView: React.FC<MapViewProps> = ({
   simulationSpeed = 1,
   activeMapStyle: externalMapStyle,
   showTrafficOverlay: externalShowTraffic,
-  onSelectMapStyle: externalOnSelectMapStyle,
-  onToggleTrafficOverlay: externalOnToggleTraffic,
   onSelectIncident,
   onSelectResource,
   onSelectHospital,
@@ -94,29 +92,13 @@ export const MapView: React.FC<MapViewProps> = ({
   const vehicleMarkersMapRef = useRef<Map<string, { marker: mapboxgl.Marker; element: HTMLElement }>>(new Map());
 
   // Active Map Style state
-  const [internalMapStyle, setInternalMapStyle] = useState<MapStyleId>('dark');
+  const [internalMapStyle] = useState<MapStyleId>('dark');
   const currentMapStyle = externalMapStyle ?? internalMapStyle;
   const currentAppliedStyleRef = useRef<MapStyleId>('dark');
 
   // Active Traffic Overlay state
-  const [internalShowTraffic, setInternalShowTraffic] = useState<boolean>(true);
+  const [internalShowTraffic] = useState<boolean>(true);
   const showTraffic = externalShowTraffic ?? internalShowTraffic;
-
-  const toggleTraffic = useCallback(() => {
-    if (externalOnToggleTraffic) {
-      externalOnToggleTraffic();
-    } else {
-      setInternalShowTraffic((prev) => !prev);
-    }
-  }, [externalOnToggleTraffic]);
-
-  const handleStyleChange = useCallback((styleId: MapStyleId) => {
-    if (externalOnSelectMapStyle) {
-      externalOnSelectMapStyle(styleId);
-    } else {
-      setInternalMapStyle(styleId);
-    }
-  }, [externalOnSelectMapStyle]);
 
   // Token management: Ingest from env or allow runtime fallback configuration
   const envToken = import.meta.env.VITE_MAPBOX_TOKEN;
