@@ -5,7 +5,7 @@
  * dynamic Haversine distance & ETA telemetry, Mapbox real-time traffic layer, and map style switcher.
  */
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
