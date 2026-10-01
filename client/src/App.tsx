@@ -1,6 +1,11 @@
 import React from 'react';
-import type { SystemStatus } from '../../shared/src/index';
 import './App.css';
+
+export interface SystemStatus {
+  service: string;
+  status: string;
+  timestamp: string;
+}
 
 const App: React.FC = () => {
   const initialStatus: SystemStatus = {
